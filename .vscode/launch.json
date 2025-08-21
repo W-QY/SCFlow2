@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "test.py",
+            // "program": "test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {"CUDA_VISIBLE_DEVICES": "3, 4",},
+            "args": [
+                "--config", "configs/flow_refine/scflow2.py",
+
+                "--checkpoint", "work_dirs/scflow2_250616/iter_190000.pth",
+                // "--checkpoint", "work_dirs/dgflow_unseen/scflow2_mhposev1_posenum2_train250223/iter_200000.pth",
+                // "--resume-from", "work_dirs/dgflow_unseen/scflow2_freezeRGBDencoder_train0118/iter_145000.pth",
+              ],
+        }
+    ]
+}

@@ -1,0 +1,161 @@
+# 依次执行，因为要输入Y
+# apt-get update
+# apt-get install make
+# apt-get install zip
+# apt-get install kill
+apt install nvidia-utils-525-server
+
+# 下载 gpu-burn
+git clone https://github.com/wilicc/gpu-burn.git
+tmux
+cd gpu-burn
+make CUDAPATH=/opt/conda/envs/torch201/
+CUDA_VISIBLE_DEVICES=3 ./gpu_burn 360000
+
+gsutil -o GSUtil:parallel_thread_count=1 -o GSUtil:sliced_object_download_max_components=16 -m cp gs://ml-algo-sandbox-pr-us-central-shared/yhu/scflow2/data/MegaPose-ShapeNetCore.tar MegaPose-ShapeNetCore.tar
+
+gsutil -o GSUtil:parallel_thread_count=1 -o GSUtil:sliced_object_download_max_components=16 -m cp gs://ml-algo-sandbox-pr-us-central-shared/yhu/scflow2/data/MegaPose-GSO.tar MegaPose-GSO.tar
+
+# 下载代码
+#--- old version ---#
+# pip install gdown
+# mkdir unseenflow
+# cd unseenflow
+# gdown --id 1kPvjrlAtnMGx_BwnWuQDP-tVq9NaT2j_     # DGFlow
+# gdown --id 1dbWngBBcQhIoi0l0XXvJfSpjsm8Qaoc4     # scflow2
+# unzip DGFlow.zip
+#--- new version ---#
+pip install gdown
+mkdir unseenflow
+cd unseenflow
+gdown --id 1-Pq1EQUHF96MfurW3rKz8fmLTkB2CRGS       # scflow2
+unzip scflow2_1209.zip
+
+cd data
+gdown --id 1iK-f9rFTmSlsITy81FCAtlR4xbxG78sb     # data
+unzip data.zip
+
+cd ..
+cd checkpoints
+gdown --id 1OZnOfdZ6QUecdja73ut_KC8LC3vaignM     # checkpoints
+unzip checkpoints.zip
+
+
+# 下载数据集
+python download_gsoshape.py
+python download_shapenetmesh.py
+python download_gsomesh.py
+cd /root/unseenflow/data/megapose_dataset/FoundationPose-Objaverse/train_pbr_web
+python download_objaverse_pbr.py
+
+# 安装环境库
+apt-get update && apt-get install libsuitesparse-dev            # for scikit-sparse
+conda install -c conda-forge suitesparse                        # for scikit-sparse
+
+# bop_toolkit_lib
+# libgl1-mesa-dri libgl1-mesa-glx libglu1-mesa
+apt-get install fontconfig libglfw3-dev libgles2-mesa-dev libglu1-mesa xvfb
+chmod +x eval_bop19.sh
+pip install glfw
+
+cd /opt/conda/envs/torch201/lib
+mv libffi.so.7 libffi_bak.so.7
+ln -s /lib/x86_64-linux-gnu/libffi.so.7.1.0 libffi.so.7
+
+
+
+pip install -r requirements.txt
+同时安装base下的库
+
+conda install scikit-sparse
+pip install "git+https://github.com/princeton-vl/lietorch.git"
+
+# 安装mmcv
+python -m pip install openmim
+mim install mmcv_full==1.7.2
+
+
+
+Q: vscode无法连接但是xterm可以连接？ 
+A: 删除本机.ssh目录下的known_hosts
+
+
+Q: gpu_burn 的 make 无法编译？ 
+A: 修改CUDA路径：
+CUDAPATH = /opt/conda/envs/torch201
+
+gdown --id 19SBqNuyaS7Zf3nKh54BgFbQdOB1zOvKz     # dinov2_large_90000
+
+# 系统应用
+apt-get install git
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A4B469963BF863CC &&\
+    apt-get update && apt-get install -y wget
+apt-get update && apt-get install -y libx11-6
+apt-get update && apt-get install -y vim
+apt-get update && apt-get install -y zsh
+apt-get update && apt-get install libsuitesparse-dev            # 必要for scikit-sparse
+apt install build-essential
+
+
+# ##############
+conda install -c conda-forge suitesparse                        # 必要for scikit-sparse
+conda install nvidia::cuda-cudart-dev
+
+
+conda install -c conda-forge cudatoolkit-dev
+conda install -c nvidia cuda-nvcc==11.8.89
+conda install -c nvidia cudatoolkit=11.8
+conda install -c nvidia gcc=9.4.0
+conda install -c nvidia gxx=9.4.0
+
+
+# conda install -c nvidia cuda-toolkit=11.8 or ?
+# conda install cuda-toolkit=11.8 or ?
+# conda install -c nvidia cudatoolkit=11.8
+# conda install -c nvidia gcc=9.4.0
+# conda install -c nvidia gxx=9.4.0
+
+# apt-get install libcusparse-dev-11-8
+# conda install ninja
+
+
+# git clone https://github.com/W-QY/unseenflow.git  # (公开源码)
+
+
+
+# 安装依赖库
+git clone https://github.com/W-QY/pytorch3d.git
+git clone https://github.com/erikwijmans/Pointnet2_PyTorch.git or
+pip install "git+https://github.com/erikwijmans/Pointnet2_PyTorch.git#egg=pointnet2_ops&subdirectory=pointnet2_ops_lib"
+
+git clone https://github.com/thodan/bop_toolkit.git
+(/root/unseenflow/base/bop_toolkit/bop_toolkit_lib/inout.py, 48, d = imageio.v2.imread(path))
+
+pip install "git+https://github.com/princeton-vl/lietorch.git"
+
+pip install yapf==0.40.1
+kornia==0.6.1
+pip install setuptools==63.4.1
+
+
+
+# 安装mim
+python -m pip install openmim
+mim install mmcv_full==1.7.2
+
+
+# 下载
+data中的ycbv和ref pose：
+pip install gdown
+
+gdown --id 1gsZMLVMH_Wl5_Rk325tWPASN8P5LDQRs     # DGFlow
+gdown --id 1NH17PzBBzHsomybm3KPHaiMZo4nmDLxh     # data
+gdown --id 17lpfSi1WuguLV0uQR4WBv87MipOM0hPv     # megapose_json.zip
+gdown --id 1qP1kdr-fRthdKvWFb32sYTOUjGTcBq1s     # foundationpose
+gdown --id 1OZnOfdZ6QUecdja73ut_KC8LC3vaignM     # checkpoints
+
+# 下载数据集
+python download_gsoshape.py
+
+
+
